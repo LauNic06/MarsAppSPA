@@ -1,9 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import logo from './logo.svg';
 import dumbbell from './dumbbell_noao.jpg';
 import './App.css';
-import {Link, Route, BrowserRouter as Router, Routes, useLocation} from "react-router-dom";
-// import {}
+import {BrowserRouter as Router, Link, Route, Routes} from "react-router-dom";
+import {Component1} from "./Component1";
+import {Component2Props} from "./Component2";
 
 interface TemplateProps {
     title: string;
@@ -12,57 +13,14 @@ interface TemplateProps {
     image: string;
 }
 
-interface Component2Props {
-    count: number;
-    setCount: (value: (((prevState: number) => number) | number)) => void;
-}
-
-interface Component3Props {
-    message: string;
-}
-
 function Template(props: TemplateProps) {
     return (
         <p>
             <h1>{props.title}</h1>
             <p>{props.p1}</p>
             <p>{props.p2}</p>
-            <img src={props.image} alt="dumbbell" />
+            <img src={props.image} alt="dumbbell"/>
         </p>
-    );
-}
-
-function Component1() {
-    return (
-        <div>
-            <Component3 message={"Component3's message"}/>
-            <Component2 />
-        </div>
-    );
-}
-
-function Component2() {
-    let contextData = React.useContext(userDetailContext);
-    return (
-        <button onClick={() => contextData.setCount(contextData.count + 1)}>
-            Click here
-        </button>
-    );
-}
-
-function Component3(props: Component3Props) {
-    return(
-        <div>
-            <Component4 />
-            <p>{props.message}</p>
-        </div>
-    );
-}
-
-function Component4() {
-    let contextData = React.useContext(userDetailContext);
-    return (
-        <p>You clicked {contextData.count} times</p>
     );
 }
 
@@ -75,17 +33,15 @@ function AppHeader() {
 }
 
 function AppLogo() {
-    return <img src={logo} className="App-logo" alt="logo" />;
+    return <img src={logo} className="App-logo" alt="logo"/>;
 }
 
-let userDetailContext = React.createContext<Component2Props>(null as unknown as Component2Props);
+export const userDetailContext = React.createContext<Component2Props>(null as unknown as Component2Props);
 
 function App() {
     let countTemp = localStorage.getItem('count') || '0';
 
     const [count, setCount] = useState(parseInt(countTemp));
-
-    // const component4Props: Component4Props = {count: 0};
 
     useEffect(() => {
         document.title = `You clicked ${count} times`;
@@ -114,14 +70,16 @@ function App() {
                 </ul>
 
                 <Routes>
-                    <Route path="/" element={<Home/>} />
-                    <Route path="/app-header" element={<AppHeader/>} />
-                    <Route path="/app-logo" element={<AppLogo/>} />
-                    <Route path="/details" element={<Template title="NASA" p1="Astronomy Picture of the Day" p2="2001 March 6" image={dumbbell}/>} />
+                    <Route path="/" element={<Home/>}/>
+                    <Route path="/app-header" element={<AppHeader/>}/>
+                    <Route path="/app-logo" element={<AppLogo/>}/>
+                    <Route path="/details"
+                           element={<Template title="NASA" p1="Astronomy Picture of the Day" p2="2001 March 6"
+                                              image={dumbbell}/>}/>
                     <Route
                         path="/components"
-                        element={ <userDetailContext.Provider value={{count: count, setCount: setCount}}> <Component1 />
-                                </userDetailContext.Provider>} />
+                        element={<userDetailContext.Provider value={{count: count, setCount: setCount}}><Component1/>
+                        </userDetailContext.Provider>}/>
                 </Routes>
             </div>
         </Router>
