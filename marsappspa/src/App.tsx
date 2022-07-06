@@ -66,10 +66,7 @@ function SelectRoverName() {
     }, [cameraType]);
 
     const roverNameHandleChange = (e: any) => setRoverName(e.target.value);
-
-    const cameraTypeHandleChange = (e: any) => {
-        setCameraType(e.target.value);
-    }
+    const cameraTypeHandleChange = (e: any) => setCameraType(e.target.value);
 
     const roverNames: string[] = data.map(detail => detail.name);
 
@@ -113,7 +110,6 @@ function SelectRoverName() {
             {
                 imgSrcs.map((img, index) => <img key={index} src={img}></img>)
             }
-
         </div>
     );
 }
@@ -161,8 +157,11 @@ function App() {
                                               image={dumbbell}/>}/>
                     <Route
                         path="/components"
-                        element={<userDetailContext.Provider value={{count: count, setCount: setCount}}><Component1/>
-                        </userDetailContext.Provider>}/>
+                        element={
+                            <userDetailContext.Provider
+                                value={{count: count, setCount: setCount}}><Component1/>
+                            </userDetailContext.Provider>
+                        }/>
 
                     <Route
                         path="/rovers"
